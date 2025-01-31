@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>רשימת משימות - פברואר 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl; /* תמיכה בעברית */
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .task-list {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .task {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1em;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+        .task-time {
+            font-weight: bold;
+            color: #333;
+        }
+        .task-completed {
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        /* צבעים לפי סוג המשימה */
+        .task-milium { /* מילואים - ירוק */
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .task-course { /* קורסים - צהוב */
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+        }
+        .task-study { /* למידה - כחול */
+            background-color: #e0f7fa;
+            border: 1px solid #b3e5fc;
+        }
+        .task-exam { /* מבחן - סגול בהיר */
+            background-color: #d6d4f7;
+            border: 1px solid #c1bff4;
+        }
+        .edit-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>רשימת משימות - פברואר 2025 לינוי מזרחי</h1>
+
+    <button class="edit-btn" onclick="markAllCompleted()">סמן הכל כהושלמו</button>
+
+    <div class="task-list" id="taskList">
+        <!-- המשימות יוטענו אוטומטית מה-JavaScript -->
+    </div>
+
+    <script>
+        // נתוני המשימות
+        const tasks = [
+            { date: "01/02/2025", time: "01-02/02", text: "מארגנת חומרים למבחנים", type: "study" },
+            { date: "03/02/2025", time: "10:30-13:00", text: "קורס מזורז תורת המשפט", type: "course" },
+            { date: "03/02/2025", time: "13:45-17:15", text: "דיני עונשין", type: "course" },
+            { date: "04/02/2025", time: "יום שלם", text: "לימוד תורת המשפט", type: "study" },
+            { date: "04/02/2025", time: "20:00", text: "משמרת מילואים", type: "milium" },
+            { date: "05/02/2025", time: "09:00-12:00", text: "זום סטטיסטיקה", type: "course" },
+            { date: "05/02/2025", time: "אחר הצהריים", text: "התחלת עבודת הגשה בתורת המשפט", type: "study" },
+            { date: "05/02/2025", time: "20:00", text: "סיום משמרת מילואים", type: "milium" },
+            { date: "06/02/2025", time: "09:45-13:00", text: "דיני עונשין", type: "course" },
+            { date: "06/02/2025", time: "13:45-16:30", text: "תורת המשפט", type: "course" },
+            { date: "06/02/2025", time: "אחר הצהריים", text: "עבודה על הגשות", type: "study" },
+            { date: "07/02/2025", time: "08:30-11:30", text: "זום סטטיסטיקה", type: "course" },
+            { date: "07/02/2025", time: "09:45-13:00", text: "דיני עונשין", type: "course" },
+            { date: "07/02/2025", time: "אחר הצהריים", text: "עבודה על הגשות", type: "study" },
+            { date: "08/02/2025", time: "יום שלם", text: "הגשת עבודות או עבודה על דיני עונשין ותורת המשפט", type: "study" },
+            { date: "09/02/2025", time: "יום שלם", text: "הגשת עבודות בדיני עונשין ותורת המשפט", type: "study" },
+            { date: "10/02/2025", time: "יום שלם", text: "לימוד סטטיסטיקה מהמחברת", type: "study" },
+            { date: "10/02/2025", time: "16:00-19:00", text: "זום סטטיסטיקה", type: "course" },
+            { date: "10/02/2025", time: "20:00", text: "משמרת מילואים", type: "milium" },
+            { date: "11/02/2025", time: "יום שלם", text: "תרגול מבחנים בסטטיסטיקה", type: "study" },
+            { date: "11/02/2025", time: "20:00", text: "סיום משמרת מילואים", type: "milium" },
+            { date: "12/02/2025", time: "09:00-12:00", text: "זום סטטיסטיקה", type: "course" },
+            { date: "12/02/2025", time: "אחר הצהריים", text: "תרגול מבחנים בסטטיסטיקה", type: "study" },
+            { date: "14/02/2025", time: "יום שלם", text: "תרגול מבחנים בסטטיסטיקה", type: "study" },
+            { date: "14/02/2025", time: "20:00", text: "משמרת מילואים", type: "milium" },
+            { date: "15/02/2025", time: "יום שלם", text: "תרגול מבחנים בסטטיסטיקה", type: "study" },
+            { date: "15/02/2025", time: "20:00", text: "סיום משמרת מילואים", type: "milium" },
+            { date: "16/02/2025", time: "15:45-18:00", text: "מבחן בסטטיסטיקה", type: "exam" },
+            { date: "17/02/2025", time: "יום שלם", text: "לימוד דיני חוזים", type: "study" },
+            { date: "18/02/2025", time: "יום שלם", text: "לימוד דיני חוזים", type: "study" },
+            { date: "18/02/2025", time: "17:00-20:15", text: "זום חקר המוח", type: "course" },
+            { date: "19/02/2025", time: "08:30-12:45", text: "זום חקר המוח", type: "course" },
+            { date: "19/02/2025", time: "אחר הצהריים", text: "תרגול מבחנים בדיני חוזים", type: "study" },
+            { date: "19/02/2025", time: "20:00", text: "משמרת מילואים", type: "milium" },
+            { date: "20/02/2025", time: "יום שלם", text: "תרגול מבחנים בדיני חוזים", type: "study" },
+            { date: "20/02/2025", time: "20:00", text: "סיום משמרת מילואים", type: "milium" },
+            { date: "21/02/2025", time: "08:30-12:45", text: "זום חקר המוח", type: "course" },
+            { date: "21/02/2025", time: "אחר הצהריים", text: "תרגול מבחנים בדיני חוזים", type: "study" },
+            { date: "22/02/2025", time: "יום שלם", text: "תרגול מבחנים בדיני חוזים", type: "study" },
+            { date: "23/02/2025", time: "יום שלם", text: "מבחן בדיני חוזים", type: "exam" },
+            { date: "24/02/2025", time: "יום שלם", text: "לימוד חקר המוח מהמחברת", type: "study" },
+            { date: "25/02/2025", time: "יום שלם", text: "תרגול מבחנים בחקר המוח", type: "study" },
+            { date: "26/02/2025", time: "יום שלם", text: "תרגול מבחנים בחקר המוח", type: "study" },
+            { date: "27/02/2025", time: "15:45-18:45", text: "מבחן בחקר המוח", type: "exam" },
+            { date: "27/02/2025", time: "20:00", text: "משמרת מילואים (אופציונלי)", type: "milium" },
+            { date: "28/02/2025", time: "יום שלם", text: "לימוד הסתברות", type: "study" },
+            { date: "28/02/2025", time: "20:00", text: "סיום משמרת מילואים", type: "milium" },
+        ];
+
+        // טען את המשימות מהזיכרון המקומי
+        let savedTasks = JSON.parse(localStorage.getItem('tasks')) || tasks;
+
+        // הצג את המשימות
+        function renderTasks() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = savedTasks.map((task, index) => `
+                <div class="task ${task.type ? `task-${task.type}` : ''} ${task.completed ? 'task-completed' : ''}">
+                    <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTaskCompletion(${index})">
+                    <div class="task-time">${task.time}</div>
+                    <div>${task.text}</div>
+                </div>
+            `).join('');
+        }
+
+        // סמן משימה כהושלמה
+        function toggleTaskCompletion(index) {
+            savedTasks[index].completed = !savedTasks[index].completed;
+            localStorage.setItem('tasks', JSON.stringify(savedTasks));
+            renderTasks();
+        }
+
+        // סמן את כל המשימות כהושלמו
+        function markAllCompleted() {
+            savedTasks.forEach(task => task.completed = true);
+            localStorage.setItem('tasks', JSON.stringify(savedTasks));
+            renderTasks();
+        }
+
+        // טען את המשימות כשהדף נטען
+        window.onload = renderTasks;
+    </script>
+</body>
+</html>
